@@ -49,8 +49,6 @@ int main(){
 
 			if(smaller > matriz[i][j]){
 				smaller = matriz[i][j];
-				
-				liberyMemory();
 				insert(i+1);
 			}
 			//case of the previous line is in the current line
@@ -66,10 +64,14 @@ int main(){
 	print();
 	printf("\nnumber smaller: %d\n\n", smaller);
 
+
+	liberyMemory(list);
+
 return 0;
 }
 
 int LineValue(int i){
+	
 	List *aux = list;
 
 	while(aux != NULL){
@@ -106,7 +108,7 @@ void insert(int n){
 void print(){
 	List *aux = list;
 	printf("line smaller:");
-	while(aux->prox != NULL){
+	while(aux->prox != NULL || aux->n && aux->prox->n){
 		printf(" %d",aux->n);
 		aux = aux->prox;
 	}
@@ -115,12 +117,17 @@ void print(){
 
 void liberyMemory(){
 
-	List *p = list;
-	List *q;
+	List *p = list->prox;
 
-	while(p != NULL){
-		q = p->prox;
-		free(q);
-		p = q;
+	if(list != NULL){
+
+		while(p != NULL){
+
+			free(list);
+			list = p;
+			p = p->prox;
+		}
+
+		free(list);
 	}
 }
